@@ -1,0 +1,36 @@
+{
+  "name": "new-year-countdown",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next export",
+    "start": "next start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --write \"*(src|pages)/**/*.*(ts|tsx)\"",
+    "deploy": "surge out hgzforms.tk"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "next": "^9.1.6",
+    "next-images": "^1.2.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-spring": "^8.0.27",
+    "styled-components": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.20",
+    "@types/react": "^16.9.16",
+    "@types/styled-components": "^4.4.1",
+    "babel-plugin-styled-components": "^1.10.6",
+    "husky": "^3.1.0",
+    "prettier": "1.19.1",
+    "pretty-quick": "^2.0.1",
+    "typescript": "^3.7.3"
+  }
+}
