@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import CountdownContainer from '../src/components/organisms/CountdownContainer/CountdownContainer';
 import dynamic from 'next/dist/next-server/lib/dynamic';
+import Footer from '../src/components/organisms/Footer/Footer';
 
 interface Props {
   children?: any;
@@ -10,6 +11,7 @@ const HomePage: FunctionComponent<Props> = () => {
   return (
     <div>
       <CountdownContainer date={getUrlParameter('date')} />
+      <Footer/>
     </div>
   );
 };

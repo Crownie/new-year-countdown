@@ -10,7 +10,8 @@
     "start": "next start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier": "prettier --write \"*(src|pages)/**/*.*(ts|tsx)\"",
-    "deploy": "surge out hgzforms.tk"
+    "deploy": "surge out new-year-countdown.surge.sh",
+    "undeploy": "surge teardown new-year-countdown.surge.sh"
   },
   "keywords": [],
   "author": "",

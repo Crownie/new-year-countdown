@@ -6,7 +6,6 @@ module.exports = withImages(
     exportPathMap: function () {
       return {
         '/': {page: '/'},
-        '/update2020': {page: 'update2020'},
       };
     },
   }
