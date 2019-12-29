@@ -2,11 +2,10 @@ import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  children?: any
+  children?: any;
 }
 
 const Footer: FunctionComponent<Props> = () => {
-
   return (
     <StyledFooter>
       <a href="https://github.com/Crownie/new-year-countdown">Github</a>
@@ -22,10 +21,10 @@ const StyledFooter = styled.footer`
   bottom: 0;
   padding: 15px;
   z-index: 20;
-  a{
+  a {
     color: #5a5a5a;
     text-decoration: none;
-    :hover{
+    :hover {
       color: #fff;
     }
   }

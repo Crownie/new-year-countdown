@@ -11,7 +11,7 @@ const HomePage: FunctionComponent<Props> = () => {
   return (
     <div>
       <CountdownContainer date={getUrlParameter('date')} />
-      <Footer/>
+      <Footer />
     </div>
   );
 };
