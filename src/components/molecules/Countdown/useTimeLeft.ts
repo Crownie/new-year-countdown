@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
 
-export default function useTimeLeft() {
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+export default function useTimeLeft(targetDate: Date) {
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(targetDate));
   useEffect(() => {
-    setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
+    const timeout = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft(targetDate));
     }, 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   });
   return timeLeft;
 }
 
-const calculateTimeLeft = () => {
-  const difference = +new Date('2020-01-01') - +new Date();
+const calculateTimeLeft = (targetDate: Date) => {
+  const difference = +targetDate - +new Date();
   let timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
   if (difference > 0) {

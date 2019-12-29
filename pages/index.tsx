@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import CountdownContainer from '../src/components/organisms/CountdownContainer/CountdownContainer';
+import dynamic from 'next/dist/next-server/lib/dynamic';
 
 interface Props {
   children?: any;
@@ -8,9 +9,21 @@ interface Props {
 const HomePage: FunctionComponent<Props> = () => {
   return (
     <div>
-      <CountdownContainer />
+      <CountdownContainer date={getUrlParameter('date')} />
     </div>
   );
 };
 
-export default HomePage;
+// export default HomePage;
+export default dynamic(() => Promise.resolve(HomePage), {
+  ssr: false,
+});
+
+function getUrlParameter(name) {
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  var results = regex.exec(window.location.search);
+  return results === null
+    ? ''
+    : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}

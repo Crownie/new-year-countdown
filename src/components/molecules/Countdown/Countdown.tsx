@@ -5,13 +5,18 @@ import Colon from '../Colon/Colon';
 import useTimeLeft from './useTimeLeft';
 
 interface Props {
-  children?: any;
+  onEnd: () => void;
+  targetDate: Date;
 }
 
-const Countdown: FunctionComponent<Props> = () => {
-  const { days, hours, minutes, seconds } = useTimeLeft();
+const Countdown: FunctionComponent<Props> = ({ onEnd, targetDate }) => {
+  const { days, hours, minutes, seconds } = useTimeLeft(targetDate);
 
   const showDays = days > 0;
+
+  if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
+    onEnd();
+  }
 
   return (
     <StyledWrapper>

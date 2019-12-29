@@ -1,53 +1,73 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import styled, { keyframes } from 'styled-components';
 import dynamic from 'next/dist/next-server/lib/dynamic';
+import { animated, Keyframes } from 'react-spring/renderprops.cjs'; // https://github.com/react-spring/react-spring/issues/575#issuecomment-469037674
+import delay from 'delay';
 
 interface Props {
   children?: any;
 }
 
 let BubblesBackground: FunctionComponent<Props> = () => {
-  const initialBubbles = Array.apply(null, Array(5)).map(() => {
-    const diameter = Math.random() * 50 + 20;
-    const bottom = Math.random() * 800;
-    const left = `calc(${Math.random()}*100%)`;
-    return {
-      width: diameter,
-      height: diameter,
-      bottom,
-      left,
-      duration: '1s',
-    };
-  });
-  const [bubbles, setBubbles] = useState(initialBubbles);
-
-  useEffect(() => {
-    if(bubbles.length>0){
-      document.addEventListener(whichAnimationEvent(), (event) => {
-        const elm = event.target;
-        const newone = elm.cloneNode(true);
-        newone.style.bottom = 0;
-        newone.style.animationDuration = (Math.random() * 2000 + 3000)+'ms';
-        elm.parentNode.replaceChild(newone, elm);
-      });
-    }
-  }, []);
-
-  console.log('render');
+  const bubbles = Array.apply(null, Array(10));
 
   return (
     <StyledWrapper>
-      {bubbles.map(({ duration, ...style }, index) => (
-        <StyledBubble
-          duration={duration}
-          className="bubble"
-          key={index}
-          style={style}
-        />
-      ))}
+      {bubbles.map((sp, index) => {
+        const bottom = Math.random() * 50 + '0%';
+        return (
+          <Content key={index} native>
+            {props => (
+              <animated.div
+                style={{
+                  position: 'fixed',
+                  bottom,
+                  ...props,
+                }}
+                key={index}
+              >
+                <StyledBubble key={index} />
+              </animated.div>
+            )}
+          </Content>
+        );
+      })}
     </StyledWrapper>
   );
 };
+
+const Content = Keyframes.Spring(async next => {
+  // None of this will cause React to render, the component renders only once :-)
+  while (true) {
+    const diameter = Math.random() * 150 + 40;
+    const bottom = Math.random() * 50 + '0%';
+    const left = Math.random() * 100 + '0%';
+    const leftTo = Math.random() * 100 + '0%';
+    await delay(1000);
+
+    await next({
+      bottom: '0%',
+      left,
+      config: {
+        duration: 1,
+      },
+    });
+    await next({
+      bottom: '100%',
+      width: diameter,
+      height: diameter,
+      left: leftTo,
+      from: {
+        width: diameter,
+        height: diameter,
+        left,
+      },
+      config: {
+        duration: 4000 + Math.random() * 2000,
+      },
+    });
+  }
+}) as any;
 
 // BubblesBackground = React.memo(BubblesBackground);
 // disable ssr
@@ -65,7 +85,7 @@ const FloatUp = keyframes`
   }
 `;
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled(props => <animated.div {...props} />)`
   position: absolute;
   top: 0;
   left: 0;
@@ -75,11 +95,9 @@ const StyledWrapper = styled.div`
 const StyledBubble = styled(({ duration, ...props }) => <div {...props} />)`
     background: teal;
     opacity: .5;
-    position: fixed;
     border-radius: 100%
-    height: 30px;
-    width: 30px;
-    animation: ${FloatUp} 1s linear;
+    height: 100%;
+    width: 100%;
 `;
 
 function whichAnimationEvent() {
