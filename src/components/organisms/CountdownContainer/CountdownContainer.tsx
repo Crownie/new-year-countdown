@@ -12,7 +12,10 @@ interface Props {
 const CountdownContainer: FunctionComponent<Props> = ({ date }) => {
   const now = new Date();
   const currentYear = now.getFullYear();
-  const nextYearDate = new Date(`${currentYear + 1}-01-01`);
+  date = isValidDate(date)
+    ? appendGmtOffset(date)
+    : appendGmtOffset(`${currentYear + 1}-01-01`);
+  const nextYearDate = new Date(date);
   const targetDate = isValidDate(date) ? new Date(date) : nextYearDate;
   const [ended, setEnded] = useState(false);
   const handleEnd = useCallback(() => {
@@ -54,4 +57,13 @@ const isValidDate = date => {
     new Date(date).toString() !== 'Invalid Date' &&
     !isNaN(new Date(date).getTime())
   );
+};
+
+const getGmtOffsetString = () => {
+  const m = new Date().toString().match(/GMT.\d{4}/);
+  return m ? m[0] : '';
+};
+
+const appendGmtOffset = (dateStr: string) => {
+  return dateStr + ' ' + getGmtOffsetString();
 };
