@@ -4,19 +4,19 @@ import Countdown from '../../molecules/Countdown/Countdown';
 import BubblesBackground from '../../molecules/BubblesBackground/BubblesBackground';
 import NewYearGreeting from '../../molecules/NewYearGreeting/NewYearGreeting';
 import CountdownNav from '../../molecules/CountdownNav/CountdownNav';
+import moment from 'moment';
 
 interface Props {
   date: string;
 }
 
 const CountdownContainer: FunctionComponent<Props> = ({ date }) => {
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  date = isValidDate(date)
-    ? appendGmtOffset(date)
-    : appendGmtOffset(`${currentYear + 1}-01-01`);
-  const nextYearDate = new Date(date);
-  const targetDate = isValidDate(date) ? new Date(date) : nextYearDate;
+  const defaultDate = `${new Date().getFullYear() + 1}-01-01`;
+  let targetMoment = moment(date, 'YYYY-MM-DD');
+  if (!targetMoment.isValid()) {
+    targetMoment = moment(defaultDate, 'YYYY-MM-DD');
+  }
+  const targetDate = targetMoment.utc(false).toDate();
   const [ended, setEnded] = useState(false);
   const handleEnd = useCallback(() => {
     setEnded(true);
