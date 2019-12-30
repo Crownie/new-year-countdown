@@ -65,13 +65,14 @@ const StyledNav = styled.nav`
     padding: 15px;
     text-decoration: none;
     transition: 0.3s ease;
-    color: #5a5a5a;
-    opacity: 0.5;
+    color: #fff;
+    opacity: 0.8;
     :hover {
       background-color: rgba(255, 255, 255, 0.7);
     }
     &.active {
       opacity: 1;
+      color: teal;
     }
   }
 `;
